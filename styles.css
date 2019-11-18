@@ -1,0 +1,403 @@
+@font-face {
+    font-family: 'font-1';
+    src: url('BeVietnam-Regular.ttf');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'font-1';
+    src: url('BeVietnam-Bold.ttf');
+    font-weight: bold;
+}
+
+:root {
+    --radius: 6px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+input, button {
+    outline: none;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: #ddffd6;
+    font-size: 100%;
+}
+
+.alert-container {
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .5);
+    align-items: center;
+    justify-content: center;
+}
+
+.alert-container .alert-box {
+    background-color: white;
+    border-radius: var(--radius);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, .2);
+    padding: 10px;
+    margin: 0 25px;
+}
+
+.alert-container .alert-box .title {
+    background-color: #d14747;
+    padding: 5px;
+    color: white;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.alert-container .alert-box .message {
+    font-size: .9em;
+    padding: 0 20px;
+    margin-bottom: 10px;
+}
+
+.alert-container .alert-box .options {
+    display: flex;
+}
+
+.alert-container .alert-box .options .accept {
+    color: white;
+    background-color: #d14747;
+    border: 2px solid #d14747;
+}
+
+.alert-container .alert-box .options .cancel {
+    color: #d14747;
+    background-color: white;
+    border: 2px solid #d14747;
+}
+
+.alert-container .alert-box .options .accept, .alert-container .alert-box .options .cancel {
+    -webkit-appearance: none;
+    appearance: none;
+    font-size: inherit;
+    flex: 1;
+    font-weight: bold;
+    padding: 6px 0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.alert-container .alert-box .options .space {
+    width: 10px;
+}
+
+main {
+    padding: 30px;
+    display: flex;
+}
+
+/*** Left Side ***/
+
+header {
+    background-color: #35b164;
+    padding: 10px 20px 20px 20px;
+    border-radius: var(--radius);
+    cursor: default;
+}
+
+header h1 {
+    display: none;
+}
+
+header .title {
+    display: block;
+    font-family: 'font-1', sans-serif;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, .15);
+    font-size: 3em;
+    color: white;
+}
+
+header .title span {
+    font-weight: bold;
+    color: #003b17;
+}
+
+header .by {
+    display: block;
+    color: #016326;
+}
+
+header .by a {
+    text-decoration: none;
+    color: #003b17;
+}
+
+header .by a:hover {
+    border-bottom: 2px solid #003b17;
+}
+
+.left-side {
+    min-width: 600px;
+    width: 600px;
+    margin-right: 30px;
+}
+
+.left-side  .content {
+    margin-top: 30px;
+    border-radius: var(--radius);
+    background-color: white;
+    padding: 20px;
+}
+
+.left-side  .content .margin-bottom {
+    margin-bottom: 20px;
+}
+
+.left-side  .content .outstanding h2 {
+    margin: 0;
+    background-color: #ff7373;
+    font-weight: normal;
+    color: white;
+    padding: 10px;
+    border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.left-side  .content .completed h2 {
+    margin: 0;
+    background-color: #1878af;
+    font-weight: normal;
+    color: white;
+    padding: 10px;
+    border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.left-side .content .card {
+    padding: 10px;
+}
+
+.left-side .content .card:last-child {
+    border-bottom: none;
+    border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.left-side .content .card .money {
+    padding: 6px;
+    font-size: 1.2em;
+    display: flex;
+}
+
+.left-side .content .card .money .sign {
+    align-self: center;
+}
+
+.left-side .content .card .money .amount {
+    font-weight: bold;
+}
+
+.left-side .content .card .money .decimals {
+    font-size: .6em;
+    padding-top: 2px;
+}
+
+/*** Red Card ***/
+
+.left-side .content .red-card {
+    background-color: #ffb9b9;
+    border-bottom: 1px solid #ff7373;
+}
+
+.left-side .content .red-card .title {
+    font-size: 1.4em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left-side .content .red-card .tools {
+    font-size: .7em;
+}
+
+.left-side .content .red-card .tools .delete-outstanding, .left-side .content .red-card .tools .edit-outstanding {
+    cursor: pointer;
+}
+
+.left-side .content .red-card .ive-paid {
+    display: flex;
+    align-items: center;
+}
+
+.left-side .content .red-card .progress {
+    display: flex;
+}
+
+.left-side .content .red-card .progress .bar {
+    background-color: white;
+    border-radius: 4px;
+    margin-right: 10px;
+    width: 100%;
+    padding: 4px;
+}
+
+.left-side .content .red-card .progress .bar .inside {
+    height: 100%;
+    border-radius: 2px;
+    background-color: #009914;
+}
+
+.left-side .content .red-card .progress .perc {
+    white-space: nowrap;
+}
+
+.left-side .content .red-card .titleInput {
+    display: block;
+    font-size: 1.4em;
+    width: 100%;
+}
+
+.left-side .content .red-card .moneyInput {
+    font-size: inherit;
+    width: 120px;
+}
+
+.left-side .content .red-card .titleInput, .left-side .content .red-card .moneyInput {
+    -webkit-appearance: none;
+    appearance: none;
+    display: block;
+    border: 2px solid #ff7373;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+.left-side .content .card .buttons {
+    display: flex;
+}
+
+.left-side .content .card .buttons .space {
+    width: 15px;
+}
+
+.left-side .content .card .buttons .applyChanges {
+    color: white;
+    background-color: #ff7373;
+}
+
+.left-side .content .card .buttons .cancelChanges {
+    color:#ff7373;
+    background-color: white;
+}
+
+.left-side .content .card .buttons .applyChanges, .left-side .content .card .buttons .cancelChanges {
+    -webkit-appearance: none;
+    font-weight: bold;
+    appearance: none;
+    border: none;
+    padding: 8px 0;
+    font-size: inherit;
+    flex: 100%;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/*** Blue Card ***/
+
+.left-side .content .blue-card {
+    display: flex;
+    background-color: #73ccff;
+    border-bottom: 1px solid #1878af;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left-side .content .blue-card .title {
+}
+
+.left-side .content .blue-card .money {
+
+}
+
+/*** Right Side ***/
+
+.right-side {
+    width: 100%;
+}
+
+.right-side .content {
+    border-radius: var(--radius);
+    background-color: white;
+    padding: 20px;
+}
+
+.right-side .content h2 {
+    font-size: 1.6em;
+    margin: 0 0 20px 0;
+    padding: 6px 20px;
+    border-radius: 4px;
+    font-weight: normal;
+    color: white;
+    background-color: black;
+}
+
+.right-side .content .form .title input, .right-side .content .form .money input {
+    -webkit-appearance: none;
+    appearance: none;
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: inherit;
+}
+
+.right-side .content .form .money {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.right-side .content .form .money input {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.right-side .content .form .money input:last-child {
+    margin-left: 10px;
+}
+
+.right-side .content .form .submit button {
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 4px;
+    color: white;
+    font-size: inherit;
+    padding: 4px 8px;
+    border: 2px solid #003b17;
+    background-color: #009914;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 800px) {
+    body {
+        font-size: .8em;
+    }
+
+    main {
+        display: block;
+        padding: 15px;
+    }
+
+    .left-side {
+        min-width: auto;
+        width: auto;
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+
+    .left-side .content {
+        margin-top: 15px;
+    }
+}
