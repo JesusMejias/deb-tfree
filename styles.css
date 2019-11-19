@@ -16,6 +16,7 @@
 
 * {
     box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 input, button {
@@ -203,6 +204,19 @@ header .by a:hover {
     padding-top: 2px;
 }
 
+.left-side .content .card .tools {
+    display: flex;
+    align-items: center;
+}
+
+.left-side .content .card .tools .delete-outstanding, .left-side .content .card .tools .delete-completed {
+    cursor: pointer;
+    width: 1em;
+    height: 1em;
+    background-image: url('delete.png');
+    background-size: 1em 1em;
+}
+
 /*** Red Card ***/
 
 .left-side .content .red-card {
@@ -217,12 +231,21 @@ header .by a:hover {
     align-items: center;
 }
 
-.left-side .content .red-card .tools {
-    font-size: .7em;
+.left-side .content .red-card .tools .edit-outstanding {
+    cursor: pointer;
+    width: 1em;
+    height: 1em;
+    background-image: url('edit.png');
+    background-size: 1em 1em;
+    margin: 0 10px;
 }
 
-.left-side .content .red-card .tools .delete-outstanding, .left-side .content .red-card .tools .edit-outstanding {
+.left-side .content .red-card .tools .complete-outstanding {
     cursor: pointer;
+    width: 1em;
+    height: 1em;
+    background-image: url('checked.png');
+    background-size: 1em 1em;
 }
 
 .left-side .content .red-card .ive-paid {
@@ -380,20 +403,33 @@ header .by a:hover {
     cursor: pointer;
 }
 
-@media only screen and (max-width: 800px) {
-    body {
-        font-size: .8em;
-    }
+@media only screen and (max-width: 1000px) {
 
     main {
         display: block;
-        padding: 15px;
+    }
+
+    .left-side {
+        margin-bottom: 30px;
     }
 
     .left-side {
         min-width: auto;
         width: auto;
         margin-right: 0;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    body {
+        font-size: .8em;
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    .left-side {
         margin-bottom: 15px;
     }
 

@@ -5,6 +5,8 @@ const btnAddDebt = document.querySelector("#add");
 const contentContainer = document.querySelector(".left-side .content");
 let btnsDeleteOutstanding;
 let btnsEditOutstanding;
+let btnsCompletedOutstanding;
+let btnsDeleteCompleted;
 let dataContent = [[], []];
 
 if (localStorage.key("data")) {
@@ -42,22 +44,28 @@ function populateContainer() {
                 let cardTitleNode = document.createElement("div");
                 let ivePaidNode = document.createElement("div");
                 let progressNode = document.createElement("div");
-                let amountPaidFormatted = numberWithCommas(data.amountPaid);
-                let outOfFormatted = numberWithCommas(data.outOf);
                 redCardNode.classList.add("card");
                 redCardNode.classList.add("red-card");
                 cardTitleNode.classList.add("title");
                 ivePaidNode.classList.add("ive-paid");
                 progressNode.classList.add("progress");
-                cardTitleNode.innerHTML = `<span>${data.title}</span><span class="tools"><span class="edit-outstanding" data-outstanding-id="${index}">Edit</span> | <span class="delete-outstanding" data-outstanding-id="${index}">Delete</span></span>`;
-                ivePaidNode.innerHTML = `<span>I've paid</span><span class="money">${coolFormatting(amountPaidFormatted)}</span><span>out of</span><span class="money">${coolFormatting(outOfFormatted)}</span>`;
+                cardTitleNode.innerHTML = `<span>${data.title}</span><span class="tools"><span class="complete-outstanding" data-outstanding-id="${index}" title="Mark as completed"></span><span class="edit-outstanding" data-outstanding-id="${index}" title="Edit"></span><span class="delete-outstanding" data-outstanding-id="${index}" title="Delete"></span></span>`;
+                ivePaidNode.innerHTML = `<span>I've paid</span><span class="money">${coolFormatting(data.amountPaid)}</span><span>out of</span><span class="money">${coolFormatting(data.outOf)}</span>`;
                 progressNode.innerHTML = `<div class="bar"><div class="inside" style="width: ${calculateProgress(data.amountPaid, data.outOf)}%"></div></div><div class="perc">${calculateProgress(data.amountPaid, data.outOf)}% completed</div>`;
                 redCardNode.appendChild(cardTitleNode);
                 redCardNode.appendChild(ivePaidNode);
                 redCardNode.appendChild(progressNode);
                 outstandingBoxNode.append(redCardNode);
-                btnsEditOutstanding = Array.from(document.querySelectorAll(".edit-outstanding"));
-                btnsDeleteOutstanding = Array.from(document.querySelectorAll(".delete-outstanding"));
+            });
+            btnsCompleteOutstanding = Array.from(document.querySelectorAll(".complete-outstanding"));
+            btnsEditOutstanding = Array.from(document.querySelectorAll(".edit-outstanding"));
+            btnsDeleteOutstanding = Array.from(document.querySelectorAll(".delete-outstanding"));
+            btnsCompleteOutstanding.map((button) => {
+                button.addEventListener("click", () => {
+                    let btnDataset = button.dataset;
+                    let id = btnDataset.outstandingId;
+                    addCompleted(id);
+                }, false);
             });
             btnsEditOutstanding.map((button) => {
                 button.addEventListener("click", editSelection, false);
@@ -80,11 +88,16 @@ function populateContainer() {
             contentContainer.appendChild(completedBoxNode);
             dataContent[1].map((data, index) => {
                 let blueCardNode = document.createElement("div");
-                let amountFormatted = numberWithCommas(data.amount);
                 blueCardNode.classList.add("card");
                 blueCardNode.classList.add("blue-card");
-                blueCardNode.innerHTML = `<div class="title">${data.title}</div><div class="money">${coolFormatting(amountFormatted)}</div>`;
+                blueCardNode.innerHTML = `<div class="title">${data.title}</div><div class="tools"><div class="money">${coolFormatting(data.amount)}</div><div class="delete-completed" data-completed-id="${index}"></div></div>`;
                 completedBoxNode.append(blueCardNode);
+            });
+            btnsDeleteCompleted = Array.from(document.querySelectorAll(".delete-completed"));
+            btnsDeleteCompleted.map((button) => {
+                button.addEventListener("click", (selection) => {
+                    alertBox("Warning!", "Are you sure you want to delete this?", "Yes", "No", selection);
+                }, false);
             });
         }
     }
@@ -147,7 +160,7 @@ function deleteSelection(node) {
         index = 0;
         id = dataset.outstandingId;
     }
-    if (dataset.balanceId) {
+    if (dataset.completedId) {
         index = 1;
         id = dataset.completedId;
     }
@@ -179,7 +192,7 @@ function editSelection(node) {
         redCardNode.innerHTML = 
         `<input class="titleInput" value="${title}">
         \n<div class="ive-paid">
-        \n<span>I've paid</span><span class="money"><span class="sign">$</span><input type="text" class="moneyInput" value="${amountPaid}"></span><span>out of</span><span class="money"><span class="sign">$</span><span class="amount">${outOf}</span><span class="decimals">.00</span></span>
+        \n<span>I've paid</span><span class="money"><span class="sign">$</span><input type="text" class="moneyInput" value="${amountPaid}"></span><span>out of</span><span class="money">${coolFormatting(outOf)}</span>
         \n</div>
         \n<div class="buttons"><button class="applyChanges">Apply</button><div class="space"></div><button class="cancelChanges">Cancel</button></div>`;
         newTitle = document.querySelector(".titleInput");
@@ -191,7 +204,7 @@ function editSelection(node) {
         }, false);
         btnCancel.addEventListener("click", populateContainer, false);
     }
-    if (dataset.balanceId) {
+    if (dataset.completedId) {
 
     }
 }
@@ -290,7 +303,8 @@ function alertBox(title, message, option_1, option_2, nodeToDelete = null) {
     }
 }
 
-function coolFormatting(amount) {
+function coolFormatting(nonformattedAmount) {
+    let amount = numberWithCommas(nonformattedAmount);
     let withoutDecimals = amount.substr(0, amount.length - 3);
     let twoLast = amount.substr(amount.length - 2, amount.length - 1);
     return `<span class="sign">$</span><span class="amount">${withoutDecimals}</span><span class="decimals">.${twoLast}</span>`;
