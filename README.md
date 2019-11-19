@@ -1,4 +1,4 @@
-#Debt Free
+# Debt Free
 
 ## What is It?
 
