@@ -192,7 +192,7 @@ function editSelection(node) {
         redCardNode.innerHTML = 
         `<input class="titleInput" value="${title}">
         \n<div class="ive-paid">
-        \n<span>I've paid</span><span class="money"><span class="sign">$</span><input type="text" class="moneyInput" value="${amountPaid}"></span><span>out of</span><span class="money">${coolFormatting(outOf)}</span>
+        \n<span>I've paid</span><span class="money"><span class="sign">$</span><input type="text" inputmode="decimal" class="moneyInput" value="${amountPaid}"></span><span>out of</span><span class="money">${coolFormatting(outOf)}</span>
         \n</div>
         \n<div class="buttons"><button class="applyChanges">Apply</button><div class="space"></div><button class="cancelChanges">Cancel</button></div>`;
         newTitle = document.querySelector(".titleInput");

@@ -12,6 +12,15 @@
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=no">
     <link rel="stylesheet" href="styles.css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#35b164">
+    <meta name="apple-mobile-web-app-title" content="Debt Free">
+    <meta name="application-name" content="Debt Free">
+    <meta name="msapplication-TileColor" content="#00a300">
+    <meta name="theme-color" content="#35b164">
   </head>
   <body>
     <!--[if lt IE 7]>
@@ -38,8 +47,8 @@
                   <input type="text" placeholder="Title" id="debt-title">
                 </div>
                 <div class="money">
-                  <input type="text" placeholder="I've paid" id="debt-amount-paid">
-                  <input type="text" placeholder="Out of" id="debt-total-amount">
+                  <input type="text" placeholder="I've paid" inputmode="decimal" id="debt-amount-paid">
+                  <input type="text" placeholder="Out of"  inputmode="decimal"id="debt-total-amount">
                 </div>
                 <div class="submit">
                   <button id="add">Add</button>
