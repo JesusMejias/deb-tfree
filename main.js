@@ -29,6 +29,8 @@ function populateContainer() {
     } else {
         if (dataContent[0].length > 0) {
             contentContainer.innerHTML = "";
+        }
+        if (dataContent[0].length > 0) {
             let outstandingBoxNode = document.createElement("section");
             let redH2Node = document.createElement("h2");
             outstandingBoxNode.classList.add("outstanding");
@@ -48,7 +50,7 @@ function populateContainer() {
                 ivePaidNode.classList.add("ive-paid");
                 progressNode.classList.add("progress");
                 cardTitleNode.innerHTML = `<span>${data.title}</span><span class="tools"><span class="edit-outstanding" data-outstanding-id="${index}">Edit</span> | <span class="delete-outstanding" data-outstanding-id="${index}">Delete</span></span>`;
-                ivePaidNode.innerHTML = `<span>I've paid</span><span class="money"><span class="sign">$</span><span class="amount">${amountPaidFormatted}</span><span class="decimals">.00</span></span><span>out of</span><span class="money"><span class="sign">$</span><span class="amount">${outOfFormatted}</span><span class="decimals">.00</span></span>`;
+                ivePaidNode.innerHTML = `<span>I've paid</span><span class="money">${coolFormatting(amountPaidFormatted)}</span><span>out of</span><span class="money">${coolFormatting(outOfFormatted)}</span>`;
                 progressNode.innerHTML = `<div class="bar"><div class="inside" style="width: ${calculateProgress(data.amountPaid, data.outOf)}%"></div></div><div class="perc">${calculateProgress(data.amountPaid, data.outOf)}% completed</div>`;
                 redCardNode.appendChild(cardTitleNode);
                 redCardNode.appendChild(ivePaidNode);
@@ -61,7 +63,28 @@ function populateContainer() {
                 button.addEventListener("click", editSelection, false);
             });
             btnsDeleteOutstanding.map((button) => {
-                button.addEventListener("click", deleteSelection, false);
+                button.addEventListener("click", (selection) => {
+                    alertBox("Warning!", "Are you sure you want to delete this?", "Yes", "No", selection);
+                }, false);
+            });
+        }
+        if (dataContent[1].length > 0 && dataContent[0].length == 0) {
+            contentContainer.innerHTML = "";
+        }
+        if (dataContent[1].length > 0) {
+            let completedBoxNode = document.createElement("section");
+            let blueH2Node = document.createElement("h2");
+            completedBoxNode.classList.add("completed");
+            blueH2Node.innerText = "Completed";
+            completedBoxNode.appendChild(blueH2Node);
+            contentContainer.appendChild(completedBoxNode);
+            dataContent[1].map((data, index) => {
+                let blueCardNode = document.createElement("div");
+                let amountFormatted = numberWithCommas(data.amount);
+                blueCardNode.classList.add("card");
+                blueCardNode.classList.add("blue-card");
+                blueCardNode.innerHTML = `<div class="title">${data.title}</div><div class="money">${coolFormatting(amountFormatted)}</div>`;
+                completedBoxNode.append(blueCardNode);
             });
         }
     }
@@ -94,29 +117,51 @@ function addDebt(title, amountPaid, outOf) {
     }
 }
 
+function addCompleted(id) {
+    let title = dataContent[0][id].title;
+    let amount = dataContent[0][id].outOf;
+    if (id == 0) {
+        dataContent[0].shift();
+    } else {
+        dataContent[0].splice(id, id);
+    }
+    dataContent[1].push(
+        {
+            title,
+            amount
+        }
+    );
+    localStorage.setItem("data", JSON.stringify(dataContent));
+    populateContainer();
+}
+
 function calculateProgress(amountPaid, outOf) {
     return Math.floor((amountPaid / outOf) * 100);
 }
 
 function deleteSelection(node) {
     const dataset = node.target.dataset;
+    let index;
+    let id;
     if (dataset.outstandingId) {
-        let id = dataset.outstandingId;
-        if (id == 0) {
-            dataContent[0].shift();
-        } else {
-            dataContent[0].splice(id, id);
-        }
-        if (dataContent[0].length == 0 && dataContent[1].length == 0) {
-            localStorage.clear();
-        } else {
-            localStorage.setItem("data", JSON.stringify(dataContent));
-        }
-        populateContainer();
+        index = 0;
+        id = dataset.outstandingId;
     }
     if (dataset.balanceId) {
-
+        index = 1;
+        id = dataset.completedId;
     }
+    if (id == 0) {
+        dataContent[index].shift();
+    } else {
+        dataContent[index].splice(id, id);
+    }
+    if (dataContent[0].length == 0 && dataContent[1].length == 0) {
+        localStorage.clear();
+    } else {
+        localStorage.setItem("data", JSON.stringify(dataContent));
+    }
+    populateContainer();
 }
 
 function editSelection(node) {
@@ -160,7 +205,6 @@ function numberWithCommas(number) {
 }
 
 function validateUpdate(title, amountPaid, outOf, id) {
-    console.log(title, amountPaid, outOf, id)
     if (title == "" || title == null || amountPaid == "" || amountPaid == null || isNaN(amountPaid) || outOf == "" || outOf == null || isNaN(outOf)) {
         alertBox("Alert", "You have to make sure you filled each field correctly.", false, "Okay");
     } else {
@@ -169,7 +213,7 @@ function validateUpdate(title, amountPaid, outOf, id) {
         if (Number(formatAmountPaid) > Number(formatOutOf)) {
             alertBox("Alert", "The amount you've paid cannot be greater than the total amount.", false, "Okay");
         } else if (Number(formatAmountPaid) == Number(formatOutOf)) {
-            alertBox("Alert", "The amount you've paid cannot be equal to the total amount.", false, "Okay");
+            addCompleted(id);
         } else {
             dataContent[0][id] = {
                 title,
@@ -182,7 +226,7 @@ function validateUpdate(title, amountPaid, outOf, id) {
     }
 }
 
-function alertBox(title, message, option_1, option_2) {
+function alertBox(title, message, option_1, option_2, nodeToDelete = null) {
     let containerNode = document.createElement("div");
     let alertBoxNode = document.createElement("div");
     let titleNode = document.createElement("div");
@@ -215,9 +259,12 @@ function alertBox(title, message, option_1, option_2) {
         alertBoxNode.append(optionsNode);
         document.body.prepend(containerNode);
         document.querySelector(".alert-box .accept").addEventListener("click", () => {
+            deleteSelection(nodeToDelete);
+            document.querySelector(".alert-container").remove();
             return true;
         }, false);
         document.querySelector(".alert-box .cancel").addEventListener("click", () => {
+            document.querySelector(".alert-container").remove();
             return false;
         }, false);
     } else if (option_1) {
@@ -241,4 +288,10 @@ function alertBox(title, message, option_1, option_2) {
             document.querySelector(".alert-container").remove();
         }, false);
     }
+}
+
+function coolFormatting(amount) {
+    let withoutDecimals = amount.substr(0, amount.length - 3);
+    let twoLast = amount.substr(amount.length - 2, amount.length - 1);
+    return `<span class="sign">$</span><span class="amount">${withoutDecimals}</span><span class="decimals">.${twoLast}</span>`;
 }

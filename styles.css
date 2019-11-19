@@ -153,8 +153,8 @@ header .by a:hover {
     padding: 20px;
 }
 
-.left-side  .content .margin-bottom {
-    margin-bottom: 20px;
+.left-side  .content section:nth-child(even) {
+    margin-top: 20px;
 }
 
 .left-side  .content .outstanding h2 {
