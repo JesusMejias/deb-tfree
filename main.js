@@ -90,7 +90,7 @@ function populateContainer() {
                 let blueCardNode = document.createElement("div");
                 blueCardNode.classList.add("card");
                 blueCardNode.classList.add("blue-card");
-                blueCardNode.innerHTML = `<div class="title">${data.title}</div><div class="tools"><div class="money">${coolFormatting(data.amount)}</div><div class="delete-completed" data-completed-id="${index}"></div></div>`;
+                blueCardNode.innerHTML = `<div class="title">${data.title}</div><div class="tools"><div class="money">${coolFormatting(data.amount)}</div><div class="delete-completed" data-completed-id="${index}" title="Delete"></div></div>`;
                 completedBoxNode.append(blueCardNode);
             });
             btnsDeleteCompleted = Array.from(document.querySelectorAll(".delete-completed"));
