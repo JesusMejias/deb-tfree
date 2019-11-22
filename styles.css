@@ -420,6 +420,12 @@ header .by a:hover {
     }
 }
 
+@media only screen and (max-width: 530px) {
+    .left-side .content .red-card .moneyInput {
+        width: 90px;
+    }
+}
+
 @media only screen and (max-width: 400px) {
     body {
         font-size: .8em;
@@ -435,5 +441,9 @@ header .by a:hover {
 
     .left-side .content {
         margin-top: 15px;
+    }
+
+    .left-side .content .red-card .moneyInput {
+        width: 80px;
     }
 }

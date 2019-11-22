@@ -189,18 +189,20 @@ function editSelection(node) {
         let btnCancel;
         let newTitle;
         let newAmountPaid;
+        let newOutOf;
         redCardNode.innerHTML = 
         `<input class="titleInput" value="${title}">
         \n<div class="ive-paid">
-        \n<span>I've paid</span><span class="money"><span class="sign">$</span><input type="text" inputmode="decimal" class="moneyInput" value="${amountPaid}"></span><span>out of</span><span class="money">${coolFormatting(outOf)}</span>
+        \n<span>I've paid</span><span class="money"><span class="sign">$</span><input type="text" inputmode="decimal" class="moneyInput" id="newAmountPaid" value="${amountPaid}"></span><span>out of</span><span class="money"><span class="sign">$</span><input type="text" inputmode="decimal" class="moneyInput" id="newOutOf" value="${outOf}"></span>
         \n</div>
         \n<div class="buttons"><button class="applyChanges">Apply</button><div class="space"></div><button class="cancelChanges">Cancel</button></div>`;
         newTitle = document.querySelector(".titleInput");
-        newAmountPaid = document.querySelector(".moneyInput");
+        newAmountPaid = document.querySelector("#newAmountPaid");
+        newOutOf = document.querySelector("#newOutOf");
         btnApply = document.querySelector(".applyChanges");
         btnCancel = document.querySelector(".cancelChanges");
         btnApply.addEventListener("click", () => {
-            validateUpdate(newTitle.value, newAmountPaid.value, outOf, id);
+            validateUpdate(newTitle.value, newAmountPaid.value, newOutOf.value, id);
         }, false);
         btnCancel.addEventListener("click", populateContainer, false);
     }
