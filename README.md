@@ -10,4 +10,4 @@ This web app, that can be installed on your device, lets you keep track of the d
 
 This open-source app uses HTML5's local storage function to store all the data on your own device, locally.
 
-[Live Demo](https://jesusmejias.github.io/projects/debt-free)
+[Live Demo](https://jesusmejias.com/projects/debt-free)
